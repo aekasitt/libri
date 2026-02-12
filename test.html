@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libri Speed Reader Test Page</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #ff7f00;
+    }
+    .test-section {
+      background: #f5f5f5;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    .instructions {
+      background: #e3f2fd;
+      padding: 15px;
+      border-left: 4px solid #2196F3;
+      margin: 20px 0;
+    }
+    .instructions h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+  <body>
+    <h1>🚀 Libri Speed Reader Test Page</h1>
+    
+    <div class="instructions">
+      <h3>How to Test:</h3>
+      <ol>
+        <li>Load the extension from <code>extension/dist/</code> in Chrome</li>
+        <li>Select any text below</li>
+        <li>Try one of these methods:
+          <ul>
+            <li>Click the Libri extension icon</li>
+            <li>Press <kbd>Ctrl+Shift+L</kbd> (or <kbd>Cmd+Shift+L</kbd> on Mac)</li>
+            <li>Right-click and select "Speed Read Selected Text"</li>
+          </ul>
+        </li>
+        <li>The speed reader overlay should appear!</li>
+      </ol>
+    </div>
+  
+    <div class="test-section">
+      <h2>Short Text Sample</h2>
+      <p>
+        Speed reading is a skill that allows you to read faster while maintaining comprehension. 
+        By displaying words one at a time, your eyes don't need to move across the page, 
+        reducing the time spent on each word.
+      </p>
+    </div>
+  
+    <div class="test-section">
+      <h2>Medium Text Sample</h2>
+      <p>
+        The Libri speed reader uses a technique called Rapid Serial Visual Presentation (RSVP). 
+        This method presents words sequentially at a fixed location on the screen. By eliminating 
+        the need for eye movement, RSVP can significantly increase reading speed. The middle letter 
+        of each word is highlighted to help your eyes focus on the optimal recognition point. 
+        Studies have shown that readers can achieve speeds of 500-1000 words per minute using this 
+        technique, compared to the average reading speed of 200-300 words per minute.
+      </p>
+    </div>
+  
+    <div class="test-section">
+      <h2>Long Text Sample</h2>
+      <p>
+        Reading is one of the most fundamental skills we develop as humans. From ancient scrolls 
+        to modern digital displays, the way we consume written information has evolved dramatically. 
+        However, the basic mechanics of reading have remained largely unchanged for centuries. 
+        We move our eyes across lines of text, word by word, line by line, page by page.
+      </p>
+      <p>
+        Speed reading techniques challenge this traditional approach. By presenting text in a 
+        controlled manner, these methods aim to optimize the reading process. The human brain 
+        is capable of processing information much faster than traditional reading allows. 
+        The bottleneck isn't our cognitive ability, but rather the physical limitations of 
+        eye movement and the habits we've developed over years of traditional reading.
+      </p>
+      <p>
+        Libri leverages modern web technologies to bring speed reading to your browser. 
+        Built with Rust and WebAssembly, it provides a fast, efficient, and privacy-focused 
+        reading experience. All processing happens locally in your browser, ensuring your 
+        reading material remains private. Whether you're reading articles, research papers, 
+        or books, Libri can help you consume content more efficiently while maintaining 
+        comprehension.
+      </p>
+    </div>
+  
+    <div class="test-section">
+      <h2>Keyboard Controls Reference</h2>
+      <ul>
+        <li><kbd>Space</kbd> - Pause/Resume reading</li>
+        <li><kbd>Escape</kbd> - Close the speed reader</li>
+        <li><kbd>↑</kbd> - Increase speed (+30 WPM)</li>
+        <li><kbd>↓</kbd> - Decrease speed (-30 WPM)</li>
+        <li><kbd>←</kbd> - Previous word (when paused)</li>
+        <li><kbd>→</kbd> - Next word (when paused)</li>
+      </ul>
+    </div>
+  
+    <div class="instructions">
+      <h3>Troubleshooting:</h3>
+      <ul>
+        <li><strong>Nothing happens:</strong> Open DevTools Console (F12) and check for errors</li>
+        <li><strong>"Please select some text first":</strong> Make sure text is selected before activating</li>
+        <li><strong>WASM not loading:</strong> Check that <code>extension_lectio_bg.wasm</code> exists in <code>dist/assets/dictation-web/</code></li>
+        <li><strong>Console logs:</strong> Look for "Libri WASM module loaded" and "Libri received message" logs</li>
+      </ul>
+    </div>
+  
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+      <p>Libri Speed Reader - Built with Rust, Leptos, and WebAssembly</p>
+      <p><a href="https://github.com/aekasitt/lectio" target="_blank">GitHub Repository</a></p>
+    </footer>
+  </body>
+</html>

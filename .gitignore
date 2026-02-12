@@ -1,0 +1,26 @@
+### envvars ###
+.env
+
+
+### generated ###
+core/dist
+extension/dist
+extension_devtools/dist
+target
+
+
+### osx ###
+**/.DS_Store
+
+
+### pnpm ###
+/extension/dist
+node_modules
+pnpm-lock.yaml
+package-lock.json
+
+
+### workspace ###
+.idea
+.ignore
+.vscode

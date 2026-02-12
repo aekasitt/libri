@@ -1,0 +1,11 @@
+[workspace]
+members = [ 'core' ]
+resolver = '2'
+
+
+[workspace.package]
+version = '0.0.1'
+
+
+[workspace.dependencies]
+libri = { path = './core', version = '0.0.1' }

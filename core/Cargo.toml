@@ -1,0 +1,34 @@
+[package]
+authors = [
+  'Sitt Guruvanich <aekazitt+github@gmail.com>',
+]
+description = 'Speed reader panel powered by Leptos and UnoCSS'
+edition = '2024'
+license = 'MIT'
+name = 'libri'
+publish = false
+repository = 'https://github.com/aekasitt/libri'
+version = { workspace = true }
+
+
+
+[dependencies]
+chrome-wasm-bindgen = '0.0.1'
+leptos = { version = '0.5.0', features = [ 'csr' ] }
+serde = { version = '1.0.188', features = [ 'derive' ] }
+serde_json = '1.0.107'
+serde-wasm-bindgen = '0.6'
+wasm-bindgen = '0.2.87'
+web-sys = { version = '0.3', features = [
+  'Document',
+  'Element',
+  'HtmlElement',
+  'KeyboardEvent',
+  'MessageEvent',
+  'MouseEvent',
+  'Window',
+] }
+
+
+[features]
+development = []
