@@ -5,9 +5,8 @@
     "@biomejs/biome": "^2.3.14",
     "@crxjs/vite-plugin": "^2.0.0-beta.18",
     "@types/chrome": "^0.0.246",
-    "@unocss/cli": "^0.55.7",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
-    "unocss": "^0.55.7",
     "vite": "^4.4.9",
     "vite-plugin-static-copy": "^0.17.0"
   },
@@ -27,8 +26,9 @@
     "dev": "tsc && vite build --mode development",
     "dev:isolate": "tsc && vite build --mode development",
     "fmt": "biome format --write {manifest,src/**/*,vite.config}.ts",
-    "prebuild": "cd ../core && trunk build --release && unocss \"src/**/*.rs\" -o ./dist/uno.css",
-    "predev": "cd ../core && trunk build --features development && unocss \"src/**/*.rs\" -o ./dist/uno.css"
+    "postbuild": "tailwindcss -i ./style.css -o dist/assets/dictation-web/style.css --minify",
+    "prebuild": "cd ../core && trunk build --release",
+    "predev": "cd ../core && trunk build --features development"
   },
   "type": "module",
   "version": "0.0.0"

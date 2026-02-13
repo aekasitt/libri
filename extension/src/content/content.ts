@@ -25,16 +25,10 @@ function setupDOM(): ShadowRoot {
     shadowRoot.appendChild(root)
 
     // Inject styles into shadow DOM (not document.head!)
-    const indexStyle = document.createElement('link')
-    indexStyle.rel = 'stylesheet'
-    indexStyle.href = chrome.runtime.getURL('assets/dictation-web/index.css')
-    shadowRoot.appendChild(indexStyle)
-
-    // Optional: uno.css if it exists
-    const unoStyle = document.createElement('link')
-    unoStyle.rel = 'stylesheet'
-    unoStyle.href = chrome.runtime.getURL('assets/dictation-web/uno.css')
-    shadowRoot.appendChild(unoStyle)
+    const styleLink = document.createElement('link')
+    styleLink.rel = 'stylesheet'
+    styleLink.href = chrome.runtime.getURL('assets/dictation-web/style.css')
+    shadowRoot.appendChild(styleLink)
   }
 
   return shadowRoot

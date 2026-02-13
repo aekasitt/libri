@@ -1,0 +1,12 @@
+{
+  "$schema": "https://rust-ui.com/schema.json",
+  "style": "default",
+  "tailwind": {
+    "config": "../extension/tailwind.config.ts",
+    "css": "../extensions/style.css"
+  },
+  "aliases": {
+    "components": "src/ui",
+    "utils": "src/lib/utils"
+  }
+}

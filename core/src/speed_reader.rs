@@ -7,6 +7,9 @@ use wasm_bindgen::JsCast;
 use web_sys::{KeyboardEvent, MouseEvent};
 
 // local crates
+use crate::components::ui::card::{Card, CardContent, CardFooter};
+use crate::components::ui::kbd::Kbd;
+use crate::components::ui::shimmer::Shimmer;
 use crate::settings::Settings;
 
 fn text_to_words(text: &str) -> Vec<String> {
@@ -27,6 +30,9 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
     let idx = current_index.get();
     words.with(|w| w.get(idx).cloned().unwrap_or_default())
   });
+
+  // Loading signal for shimmer (true when no word is displayed)
+  let is_loading = create_memo(move |_| current_word.get().is_empty());
 
   let remaining_time = create_memo(move |_| {
     let idx = current_index.get();
@@ -160,115 +166,42 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
     }
   };
 
-  let container_style = move || {
-    let s = settings.get();
-    format!(
-      "--bg-color: {}; --text-color: {}; --middle-letter-color: {}; --font-family: {}; --font-size: {};",
-      s.background_color, s.text_color, s.middle_letter_color, s.font_family, s.font_size
-    )
-  };
-
-  let wrapper_style = move || {
-    let s = settings.get();
-    format!(
-      "width: {}; height: {};",
-      if s.full_screen { "100%" } else { &s.width },
-      if s.full_screen { "100%" } else { &s.height }
-    )
-  };
-
   view! {
     <div
       id="libri-container"
-      style=container_style
+      class="fixed inset-0 z-[999999] flex items-center justify-center bg-black/50"
       on:click=on_background_click
       on:keydown=on_keydown
       tabindex="0"
     >
-      <div class="libri-wrapper" style=wrapper_style>
-        <div class="libri-word-container">
-          <div class="libri-word-start">{move || split_word.get().0}</div>
-          <div class="libri-word-middle">{move || split_word.get().1}</div>
-          <div class="libri-word-end">{move || split_word.get().2}</div>
-        </div>
-        <div class="libri-controls">
-          <div class="libri-speed">
-            <span class="libri-speed-minus" on:click=speed_down>"-"</span>
-            <span>{move || wpm.get()}</span>
-            <span class="libri-speed-plus" on:click=speed_up>"+"</span>
+      <Card class="w-[90%] max-w-2xl bg-stone-500">
+        <CardContent class="p-8">
+          <Shimmer loading=Signal::derive(move || is_loading.get())>
+            <div class="flex items-center justify-center gap-4 text-4xl font-mono min-h-20">
+              <span class="flex-1 text-right">{move || split_word.get().0}</span>
+              <span class="text-orange-500 font-bold">{move || split_word.get().1}</span>
+              <span class="flex-1 text-left">{move || split_word.get().2}</span>
+            </div>
+          </Shimmer>
+        </CardContent>
+
+        <CardFooter class="flex items-center justify-between border-t p-4">
+          <div class="flex items-center gap-2">
+            <button on:click=speed_down class="px-3 py-1 hover:bg-gray-100 rounded">"-"</button>
+            <span class="font-semibold">{move || wpm.get()}</span>
+            <span class="text-sm text-gray-500">"WPM"</span>
+            <button on:click=speed_up class="px-3 py-1 hover:bg-gray-100 rounded">"+"</button>
           </div>
-          <div class="lectio-time">{move || remaining_time.get()}</div>
-        </div>
-      </div>
-      <style>
-        {r#"
-#libri-container {
-  position: fixed;
-  z-index: 999999;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  background: rgba(128, 128, 128, 0.5);
-  color: var(--text-color);
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-}
 
-.libri-wrapper {
-  padding: 10px;
-  position: relative;
-  background: var(--bg-color);
-}
-
-.libri-word-container {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.libri-word-start {
-  flex: 1;
-  text-align: right;
-}
-
-.libri-word-end {
-  flex: 1;
-  text-align: left;
-}
-
-.libri-word-middle {
-  flex: 0;
-  color: var(--middle-letter-color);
-}
-
-.libri-controls {
-  font-size: 12px;
-  display: flex;
-}
-
-.libri-speed {
-  flex: 1;
-}
-
-.libri-speed-plus,
-.libri-speed-minus {
-  cursor: pointer;
-  user-select: none;
-  display: inline-block;
-  width: 15px;
-  text-align: center;
-}
-
-.libri-time {
-  text-align: right;
-}
-        "#}
-      </style>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-gray-600">{move || remaining_time.get()}</span>
+            <div class="flex gap-1">
+              <Kbd>"Space"</Kbd>
+              <span class="text-xs text-gray-500">"Pause"</span>
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   }
 }

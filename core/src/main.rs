@@ -5,6 +5,7 @@ use leptos::*;
 use wasm_bindgen::prelude::*;
 
 // local crates
+mod components;
 mod settings;
 mod speed_reader;
 use speed_reader::SpeedReader;
