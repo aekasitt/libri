@@ -8,9 +8,9 @@ chrome.action.onClicked.addListener(async (tab) => {
       target: { tabId: tab.id },
       func: () => window.getSelection()?.toString() || '',
     })
-    
+
     const text = results[0]?.result?.trim()
-    
+
     if (text) {
       // Send message to content script
       await chrome.tabs.sendMessage(tab.id, {
@@ -40,9 +40,9 @@ chrome.commands.onCommand.addListener(async (command) => {
         target: { tabId: tab.id },
         func: () => window.getSelection()?.toString() || '',
       })
-      
+
       const text = results[0]?.result?.trim()
-      
+
       if (text) {
         // Send message to content script
         await chrome.tabs.sendMessage(tab.id, {

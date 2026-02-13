@@ -23,9 +23,10 @@
   "scripts": {
     "build": "tsc && vite build",
     "build:isolate": "tsc && vite build",
+    "check": "biome check --write src/**/*.ts && biome check --write vite.config.ts",
     "dev": "tsc && vite build --mode development",
     "dev:isolate": "tsc && vite build --mode development",
-    "fmt": "biome format --write **/*.ts && biome format --write vite.config.ts",
+    "fmt": "biome format --write src/**/*.ts && biome format --write vite.config.ts",
     "prebuild": "cd ../core && trunk build --release && unocss \"src/**/*.rs\" -o ./dist/uno.css",
     "predev": "cd ../core && trunk build --features development && unocss \"src/**/*.rs\" -o ./dist/uno.css"
   },
