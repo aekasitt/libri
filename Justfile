@@ -8,7 +8,7 @@ default:
 build:
   #!/usr/bin/env sh
   cd core && trunk build --release
-  cd ../extension && pnpm install && pnpm run build:isolate
+  [[ $? -eq 0 ]] && cd ../extension && pnpm install && pnpm run build:isolate
 
 # Clean all generated files
 clean:
