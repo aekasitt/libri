@@ -5,7 +5,6 @@
 ### generated ###
 core/dist
 extension/dist
-extension_devtools/dist
 target
 
 
