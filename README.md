@@ -1,6 +1,12 @@
 # Libri Speed Reader
 
-## Speed reading Browser extension that displays selected text word-by-word at customizable speeds
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/aekasitt/libri/blob/master/LICENSE)
+[![Top](https://img.shields.io/github/languages/top/aekasitt/libri)](https://github.com/aekasitt/libri)
+[![Languages](https://img.shields.io/github/languages/count/aekasitt/libri)](https://github.com/aekasitt/libri)
+[![Size](https://img.shields.io/github/repo-size/aekasitt/libri)](https://github.com/aekasitt/libri)
+[![Last commit](https://img.shields.io/github/last-commit/aekasitt/libri/master)](https://github.com/aekasitt/libri)
+
+[![Libri banner](https://github.com/aekasitt/libri/blob/master/static/libri-banner.svg)](static/libri-banner.svg)
 
 ### Technical stack
 
