@@ -1,6 +1,7 @@
-/* ~~/libri_wasm/src/speed_reader.rs */
+/* ~~/core/src/speed_reader.rs */
 
 // third-party crates
+use leptos::leptos_dom::helpers::IntervalHandle;
 use leptos::*;
 use wasm_bindgen::JsCast;
 use web_sys::{KeyboardEvent, MouseEvent};
@@ -10,17 +11,6 @@ use crate::settings::Settings;
 
 fn text_to_words(text: &str) -> Vec<String> {
   text.split_whitespace().map(|s| s.to_string()).collect()
-}
-
-fn timeout_for_word(base_interval: f64, word: &str) -> f64 {
-  if word
-    .chars()
-    .any(|c| matches!(c, '.' | ',' | ';' | ':' | '!' | '?'))
-  {
-    base_interval * 2.0
-  } else {
-    base_interval
-  }
 }
 
 #[component]
@@ -77,24 +67,40 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
   });
 
   // Animation loop using set_interval
-  create_effect(move |_| {
-    if !is_paused.get() && is_visible.get() {
-      let interval = 60.0 * 1000.0 / wpm.get() as f64;
-      let word = current_word.get_untracked();
-      let delay = timeout_for_word(interval, &word);
+  let interval_handle = create_rw_signal::<Option<IntervalHandle>>(None);
 
-      set_timeout(
+  // Effect to manage the interval based on pause/visibility state
+  create_effect(move |_| {
+    let paused = is_paused.get();
+    let visible = is_visible.get();
+    let current_wpm = wpm.get();
+
+    // Clear existing interval if any
+    if let Some(handle) = interval_handle.get_untracked() {
+      handle.clear();
+      interval_handle.set(None);
+    }
+
+    // Start new interval if not paused and visible
+    if !paused && visible {
+      let interval_ms = (60.0 * 1000.0 / current_wpm as f64) as i32;
+
+      let handle = set_interval_with_handle(
         move || {
           let idx = current_index.get_untracked();
           let total = words.with_untracked(|w| w.len());
+
           if idx < total - 1 {
-            current_index.set(idx + 1);
+            current_index.update(|i| *i += 1);
           } else {
             is_paused.set(true);
           }
         },
-        std::time::Duration::from_millis(delay as u64),
-      );
+        std::time::Duration::from_millis(interval_ms as u64),
+      )
+      .expect("Failed to create interval");
+
+      interval_handle.set(Some(handle));
     }
   });
 
@@ -116,9 +122,9 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
     }
     "Escape" => {
       ev.prevent_default();
-      is_visible.set(false);
       is_paused.set(true);
       current_index.set(0);
+      is_visible.set(false);
     }
     "ArrowUp" => {
       ev.prevent_default();
@@ -146,9 +152,9 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
     if let Some(target) = ev.target() {
       if let Ok(element) = target.dyn_into::<web_sys::HtmlElement>() {
         if element.id() == "libri-container" {
-          is_visible.set(false);
           is_paused.set(true);
           current_index.set(0);
+          is_visible.set(false);
         }
       }
     }

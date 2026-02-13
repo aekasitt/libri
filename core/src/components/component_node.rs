@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/component_node.rs */
+/* ~~/core/src/component_node.rs */
 
 // standard crates
 use std::collections::HashSet;

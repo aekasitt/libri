@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/utils/node.rs */
+/* ~~/core/src/utils/node.rs */
 
 // standard crates
 use std::num::NonZeroU64;

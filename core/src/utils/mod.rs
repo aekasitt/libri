@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/utils/mod.rs */
+/* ~~/core/src/utils/mod.rs */
 
 mod component;
 mod node;

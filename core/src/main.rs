@@ -1,17 +1,17 @@
-/* ~~/libri_wasm/src/main.rs */
+/* ~~/core/src/main.rs */
 
-// third-party packages
+// third-party crates
 use leptos::*;
 use wasm_bindgen::prelude::*;
 
-// local modules
+// local crates
 mod settings;
 mod speed_reader;
 use speed_reader::SpeedReader;
 
 fn main() {
   use wasm_bindgen::JsCast;
-  
+
   // Try to get shadow root first, fallback to document
   let root_element = if let Some(shadow_root) = get_shadow_root() {
     shadow_root
@@ -28,7 +28,7 @@ fn main() {
       .dyn_into::<web_sys::HtmlElement>()
       .expect("Failed to cast to HtmlElement")
   };
-  
+
   // Mount the Leptos app
   mount_to(root_element, App);
 }
@@ -36,13 +36,14 @@ fn main() {
 // Helper function to get shadow root from global window object
 fn get_shadow_root() -> Option<web_sys::ShadowRoot> {
   use wasm_bindgen::JsCast;
-  
+
   let window = web_sys::window()?;
   let shadow_root = js_sys::Reflect::get(
     &window,
-    &wasm_bindgen::JsValue::from_str("__LIBRI_SHADOW_ROOT__")
-  ).ok()?;
-  
+    &wasm_bindgen::JsValue::from_str("__LIBRI_SHADOW_ROOT__"),
+  )
+  .ok()?;
+
   shadow_root.dyn_into::<web_sys::ShadowRoot>().ok()
 }
 

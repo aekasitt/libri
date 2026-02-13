@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/component.rs */
+/* ~~/core/src/component.rs */
 
 // standard crates
 use std::cell::RefCell;

@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/settings.rs */
+/* ~~/core/src/settings.rs */
 
 // third-party crates
 use serde::{Deserialize, Serialize};

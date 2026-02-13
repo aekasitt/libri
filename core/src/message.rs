@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/message.rs */
+/* ~~/core/src/message.rs */
 
 // standard crates
 use std::{collections::HashSet, num::NonZeroU64};

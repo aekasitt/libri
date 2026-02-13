@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/components/mod.rs */
+/* ~~/core/src/components/mod.rs */
 
 mod aside;
 mod aside_component;

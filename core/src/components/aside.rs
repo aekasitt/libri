@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/components/aside.rs */
+/* ~~/core/src/components/aside.rs */
 
 // third-party crates
 use leptos::*;

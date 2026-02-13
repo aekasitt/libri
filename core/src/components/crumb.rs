@@ -1,4 +1,4 @@
-/* ~~/libri_wasm/src/components/crumb.rs */
+/* ~~/core/src/components/crumb.rs */
 
 // third-party crates
 use leptos::*;
