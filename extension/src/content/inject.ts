@@ -1,4 +1,4 @@
-/* ~~/extension/content/inject.ts */
+/* ~~/extension/src/content/inject.ts */
 
 // imports
 import { createMessage } from '../utils/message'

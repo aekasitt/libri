@@ -1,9 +1,11 @@
-// Activate speed reader when extension icon is clicked
+/* ~~/extension/src/background/background.ts */
+
+/**
+ * Activate speed reader when extension icon is clicked
+ */
 chrome.action.onClicked.addListener(async (tab) => {
   if (!tab.id) return
-
   try {
-    // Get selected text
     const results = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: () => window.getSelection()?.toString() || '',
@@ -12,7 +14,6 @@ chrome.action.onClicked.addListener(async (tab) => {
     const text = results[0]?.result?.trim()
 
     if (text) {
-      // Send message to content script
       await chrome.tabs.sendMessage(tab.id, {
         type: 'ACTIVATE_SPEED_READER',
         text: text,
@@ -28,14 +29,14 @@ chrome.action.onClicked.addListener(async (tab) => {
   }
 })
 
-// Handle keyboard shortcut
+/**
+ * Handle keyboard shortcut
+ */
 chrome.commands.onCommand.addListener(async (command) => {
   if (command === 'activate-speed-reader') {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
     if (!tab.id) return
-
     try {
-      // Get selected text
       const results = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => window.getSelection()?.toString() || '',
@@ -44,10 +45,9 @@ chrome.commands.onCommand.addListener(async (command) => {
       const text = results[0]?.result?.trim()
 
       if (text) {
-        // Send message to content script
         await chrome.tabs.sendMessage(tab.id, {
-          type: 'ACTIVATE_SPEED_READER',
           text: text,
+          type: 'ACTIVATE_SPEED_READER',
         })
       } else {
         await chrome.scripting.executeScript({
@@ -61,7 +61,9 @@ chrome.commands.onCommand.addListener(async (command) => {
   }
 })
 
-// Handle context menu
+/**
+ * Handle context menu
+ */
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: 'libri-speed-reader',

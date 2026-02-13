@@ -1,5 +1,6 @@
-/* ~~/libri/manifest.ts */
+/* ~~/extension/manifest.ts */
 
+// imports
 import { defineManifest } from '@crxjs/vite-plugin'
 import { version } from './package.json'
 import icons from './src/utils/icon'
@@ -17,10 +18,10 @@ export default defineManifest({
     'activate-speed-reader': {
       suggested_key: {
         default: 'Ctrl+Shift+L',
-        mac: 'Command+Shift+L'
+        mac: 'Command+Shift+L',
       },
-      description: 'Activate speed reader on selected text'
-    }
+      description: 'Activate speed reader on selected text',
+    },
   },
   content_scripts: [
     {
@@ -32,9 +33,10 @@ export default defineManifest({
   ],
   content_security_policy: {
     extension_pages:
-      'script-src \'self\' \'wasm-unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; default-src \'self\';',
+      "script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; default-src 'self';",
   },
-  description: 'A speed reading tool that displays selected text word-by-word at customizable speeds.',
+  description:
+    'A speed reading tool that displays selected text word-by-word at customizable speeds.',
   homepage_url: 'https://github.com/aekasitt/libri',
   icons: icons.normal,
   manifest_version: 3,
@@ -43,10 +45,8 @@ export default defineManifest({
   version,
   web_accessible_resources: [
     {
-      resources: [
-        'assets/dictation-web/*'
-      ],
-      matches: ['<all_urls>']
-    }
+      resources: ['assets/dictation-web/*'],
+      matches: ['<all_urls>'],
+    },
   ],
 })

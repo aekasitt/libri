@@ -1,3 +1,5 @@
+/* ~~/extension/src/utils/icon.ts */
+
 export const icons = {
   normal: {
     48: 'assets/icons/leptos-logo-48.png',

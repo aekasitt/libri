@@ -1,8 +1,9 @@
 /* ~~/extension/vite.config.ts */
 
 // imports
-import { UserConfig, defineConfig } from 'vite'
+import type { UserConfig } from 'vite'
 import { crx } from '@crxjs/vite-plugin'
+import { defineConfig } from 'vite'
 import manifest from './manifest'
 import { viteStaticCopy as copy } from 'vite-plugin-static-copy'
 

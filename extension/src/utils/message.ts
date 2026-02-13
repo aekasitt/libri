@@ -1,9 +1,12 @@
-/* ~~/extension/utils/message.ts */
+/* ~~/extension/src/utils/message.ts */
 
 // imports
 import type { Event, OnEvent, Message } from '../types/message'
 import { LIBRI_DICTATION_MESSAGE, LIBRI_DICTATION_ON_MESSAGE } from './constant'
 
+/**
+ * TODO
+ */
 export function createMessage(payload: Event | Array<Event> | undefined): Message {
   if (typeof payload === 'undefined') {
     payload = []
@@ -16,6 +19,9 @@ export function createMessage(payload: Event | Array<Event> | undefined): Messag
   }
 }
 
+/**
+ * TODO
+ */
 export function createOnMessage(payload: OnEvent | Array<OnEvent> | undefined): Message {
   if (typeof payload === 'undefined') {
     payload = []

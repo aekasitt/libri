@@ -1,3 +1,8 @@
+/* ~~/extension/src/utils/bridge.ts */
+
+/**
+ *
+ */
 export function createPortMessanger(port: chrome.runtime.Port) {
   const listeners: Array<(message: any, port: chrome.runtime.Port) => void> = []
   const disconnectListeners: Array<() => void> = []
@@ -8,12 +13,13 @@ export function createPortMessanger(port: chrome.runtime.Port) {
     connected = false
     listeners.splice(0, listeners.length)
     port.onMessage.removeListener(onMessage)
-    disconnectListeners.forEach((fn) => fn())
+    disconnectListeners.forEach((fn) => fn()) // FIXME: should not return value
     disconnectListeners.splice(0, disconnectListeners.length)
   })
 
+  // FIXME: any -> typed
   function onMessage(message: any, port: chrome.runtime.Port) {
-    listeners.forEach((fn) => fn(message, port))
+    listeners.forEach((fn) => fn(message, port)) // FIXME: should not return value
   }
   port.onMessage.addListener(onMessage)
 

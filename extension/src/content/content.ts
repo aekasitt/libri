@@ -1,9 +1,8 @@
-// Simple approach: Import and initialize WASM directly in content script
-// No page context injection, no context isolation issues
+/* ~~/extension/src/content/content.ts */
 
 // Dynamic import of WASM module
 let wasmInitialized = false
-let speedReaderModule: any = null
+let speedReaderModule = null
 
 // Create root element with Shadow DOM for style isolation
 function setupDOM(): ShadowRoot {
@@ -69,12 +68,16 @@ async function initializeWasm() {
   }
 }
 
-// Initialize WASM (which will setup DOM)
+/**
+ * Initialize WebAssembly which will setup DOM
+ */
 initializeWasm().catch((err) => {
   console.error('[Libri] Initialization failed:', err)
 })
 
-// Listen for activation from background script
+/**
+ * Listen for activation from background script
+ */
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'ACTIVATE_SPEED_READER') {
     handleActivation(message.text)
@@ -89,19 +92,14 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   }
 })
 
+/**
+ * Ensure WebAssembly module is initialized then trigger the Dictation modal
+ * embedded with Leptos application listening to the selected texts
+ * @param text {string}
+ */
 async function handleActivation(text: string) {
-  // Ensure WASM is initialized
   if (!wasmInitialized) {
     await initializeWasm()
   }
-
-  // Trigger the speed reader with the text
-  // The Leptos app is listening for this message
-  window.postMessage(
-    {
-      type: 'LIBRI_TEXT',
-      text: text,
-    },
-    '*',
-  )
+  window.postMessage({ text: text, type: 'LIBRI_TEXT' }, '*')
 }

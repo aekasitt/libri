@@ -1,7 +1,7 @@
-/* ~~/extension/utils/message.ts */
+/* ~~/extension/src/utils/message.ts */
 
 // imports
-import { LIBRI_DICTATION_MESSAGE, LIBRI_DICTATION_ON_MESSAGE } from '../utils/constant'
+import type { LIBRI_DICTATION_MESSAGE, LIBRI_DICTATION_ON_MESSAGE } from '../utils/constant'
 
 export interface Message {
   id: typeof LIBRI_DICTATION_MESSAGE | typeof LIBRI_DICTATION_ON_MESSAGE
