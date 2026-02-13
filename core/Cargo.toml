@@ -2,7 +2,7 @@
 authors = [
   'Sitt Guruvanich <aekazitt+github@gmail.com>',
 ]
-description = 'Speed reader panel powered by Leptos and UnoCSS'
+description = 'Speed reading extension that streams text word-by-word at customizable paces powered by Rust & Leptos'
 edition = '2024'
 license = 'MIT'
 name = 'libri'
