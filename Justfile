@@ -8,7 +8,10 @@ default:
 build:
   #!/usr/bin/env sh
   cd core && trunk build --release
-  [[ $? -eq 0 ]] && cd ../extension && pnpm install && pnpm run build:isolate
+  [[ $? -eq 0 ]] && cd ../extension
+  [[ ! -d node_modules ]] && pnpm install
+  [[ $? -eq 0 ]] && pnpm run build:isolate
+  [[ $? -eq 0 ]] && pnpm run build:style
 
 # Clean all generated files
 clean:
