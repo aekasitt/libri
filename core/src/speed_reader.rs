@@ -4,6 +4,7 @@
 use leptos::leptos_dom::helpers::IntervalHandle;
 use leptos::*;
 use wasm_bindgen::JsCast;
+use wasm_bindgen::closure::Closure;
 use web_sys::{KeyboardEvent, MouseEvent};
 
 // local crates
@@ -100,6 +101,8 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
             current_index.update(|i| *i += 1);
           } else {
             is_paused.set(true);
+            current_index.set(0);
+            is_visible.set(false);
           }
         },
         std::time::Duration::from_millis(interval_ms as u64),
@@ -121,60 +124,81 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
   };
 
   // Keyboard event handler
-  let on_keydown = move |ev: KeyboardEvent| match ev.key().as_str() {
+  let on_keydown = move |keyboard_event: KeyboardEvent| match keyboard_event.key().as_str() {
     " " => {
-      ev.prevent_default();
+      keyboard_event.prevent_default();
       is_paused.update(|p| *p = !*p);
     }
     "Escape" => {
-      ev.prevent_default();
+      keyboard_event.prevent_default();
       is_paused.set(true);
       current_index.set(0);
       is_visible.set(false);
     }
     "ArrowUp" => {
-      ev.prevent_default();
+      keyboard_event.prevent_default();
       let increment = settings.get_untracked().speed_increment;
       wpm.update(|w| *w += increment);
     }
     "ArrowDown" => {
-      ev.prevent_default();
+      keyboard_event.prevent_default();
       let increment = settings.get_untracked().speed_increment;
       wpm.update(|w| *w = (*w - increment).max(50));
     }
     "ArrowLeft" => {
-      ev.prevent_default();
+      keyboard_event.prevent_default();
       current_index.update(|i| *i = i.saturating_sub(1));
     }
     "ArrowRight" => {
-      ev.prevent_default();
+      keyboard_event.prevent_default();
       let total = words.with(|w| w.len());
       current_index.update(|i| *i = (*i + 1).min(total.saturating_sub(1)));
     }
     _ => {}
   };
 
-  let on_background_click = move |ev: MouseEvent| {
-    if let Some(target) = ev.target() {
-      if let Ok(element) = target.dyn_into::<web_sys::HtmlElement>() {
-        if element.id() == "libri-container" {
-          is_paused.set(true);
-          current_index.set(0);
-          is_visible.set(false);
+  create_effect(move |_| {
+    if is_visible.get() {
+      let closure = Closure::wrap(Box::new(on_keydown) as Box<dyn FnMut(_)>);
+      window()
+        .add_event_listener_with_callback("keydown", closure.as_ref().unchecked_ref())
+        .unwrap();
+      closure.forget();
+    }
+  });
+
+  let on_background_click = move |_mouse_event: MouseEvent| {
+    is_paused.set(true);
+    current_index.set(0);
+    is_visible.set(false);
+  };
+
+  // Effect to steal focus from other elements on the page so on_background_click works
+  create_effect(move |_| {
+    if is_visible.get() {
+      if let Some(window) = web_sys::window() {
+        if let Some(document) = window.document() {
+          if let Some(element) = document.get_element_by_id("libri-container") {
+            let _ = element
+              .dyn_into::<web_sys::HtmlElement>()
+              .map(|el| el.focus());
+          }
         }
       }
     }
-  };
+  });
 
   view! {
     <div
       id="libri-container"
       class="fixed inset-0 z-[999999] flex items-center justify-center bg-black/50"
       on:click=on_background_click
-      on:keydown=on_keydown
       tabindex="0"
     >
-      <Card class="w-[90%] max-w-2xl bg-stone-500">
+      <Card
+        class="w-[90%] max-w-2xl bg-stone-500"
+        on:click=move |mouse_event: MouseEvent| mouse_event.stop_propagation()
+        >
         <CardContent class="p-8">
           <Shimmer loading=Signal::derive(move || is_loading.get())>
             <div class="flex items-center justify-center gap-4 text-4xl font-mono min-h-20">
