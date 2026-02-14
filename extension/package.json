@@ -2,13 +2,13 @@
   "author": "Sitt Guruvanich <aekazitt+github@gmail.com>",
   "description": "",
   "devDependencies": {
-    "@biomejs/biome": "^2.3.14",
-    "@crxjs/vite-plugin": "^2.0.0-beta.18",
+    "@biomejs/biome": "^2.3.15",
+    "@crxjs/vite-plugin": "^2.3.0",
     "@types/chrome": "^0.0.246",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-plugin-static-copy": "^0.17.0"
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vite": "^4.5.14",
+    "vite-plugin-static-copy": "^0.17.1"
   },
   "engines": {
     "node": ">=18",
@@ -22,6 +22,7 @@
   "scripts": {
     "build": "tsc && vite build",
     "build:isolate": "tsc && vite build",
+    "build:style": "tailwindcss -i ./style.css -o dist/assets/dictation-web/style.css --minify",
     "check": "biome check --write {manifest,src/**/*,vite.config}.ts",
     "dev": "tsc && vite build --mode development",
     "dev:isolate": "tsc && vite build --mode development",
