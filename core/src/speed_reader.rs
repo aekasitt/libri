@@ -201,7 +201,7 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
         >
         <CardContent class="p-8">
           <Shimmer loading=Signal::derive(move || is_loading.get())>
-            <div class="flex items-center justify-center gap-4 text-4xl font-mono min-h-20">
+            <div class="flex items-center justify-center text-4xl font-mono min-h-20">
               <span class="flex-1 text-right">{move || split_word.get().0}</span>
               <span class="text-orange-500 font-bold">{move || split_word.get().1}</span>
               <span class="flex-1 text-left">{move || split_word.get().2}</span>
