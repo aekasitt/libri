@@ -1,6 +1,8 @@
 # Libri Speed Reader
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/aekasitt/libri/blob/master/LICENSE)
+[![Fork](https://img.shields.io/badge/fork-filipesabella/speed--reader-beige?logo=github)](https://github.com/filipsabella/speed-reader)
+[![Fork](https://img.shields.io/badge/fork-lizidev/leptos--devtools-beige?logo=github)](https://github.com/lizidev/leptos-devtools)
 [![Top](https://img.shields.io/github/languages/top/aekasitt/libri)](https://github.com/aekasitt/libri)
 [![Languages](https://img.shields.io/github/languages/count/aekasitt/libri)](https://github.com/aekasitt/libri)
 [![Size](https://img.shields.io/github/repo-size/aekasitt/libri)](https://github.com/aekasitt/libri)
@@ -95,6 +97,7 @@ pnpm build
 ## Acknowledgments
 
 - [filipesabella/speed-reader](https://github.com/filipesabella/speed-reader)
+- [lizidev/leptos-devtools](https://github.com/lizidev/leptos-devtools)
 
 ## License
 
