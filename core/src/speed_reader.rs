@@ -112,6 +112,12 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
     }
   });
 
+  on_cleanup(move || {
+    if let Some(handle) = interval_handle.get_untracked() {
+      handle.clear();
+    }
+  });
+
   let speed_up = move |_: MouseEvent| {
     let increment = settings.get_untracked().speed_increment;
     wpm.update(|w| *w += increment);
