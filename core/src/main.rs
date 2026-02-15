@@ -53,9 +53,8 @@ fn App() -> impl IntoView {
   let text = create_rw_signal::<Option<String>>(None);
   let is_visible = create_rw_signal(false);
 
-  // Listen for messages from content script
-  let closure = Closure::wrap(Box::new(move |event: web_sys::MessageEvent| {
-    if let Ok(data) = serde_wasm_bindgen::from_value::<serde_json::Value>(event.data()) {
+  window_event_listener(ev::message, move |message_event| {
+    if let Ok(data) = serde_wasm_bindgen::from_value::<serde_json::Value>(message_event.data()) {
       if let Some(msg_type) = data.get("type").and_then(|v| v.as_str()) {
         match msg_type {
           "LIBRI_TEXT" => {
@@ -68,12 +67,7 @@ fn App() -> impl IntoView {
         }
       }
     }
-  }) as Box<dyn FnMut(_)>);
-
-  window()
-    .add_event_listener_with_callback("message", closure.as_ref().unchecked_ref())
-    .unwrap();
-  closure.forget();
+  });
 
   view! {
     <Show
