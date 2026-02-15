@@ -4,7 +4,6 @@
 use leptos::leptos_dom::helpers::IntervalHandle;
 use leptos::*;
 use wasm_bindgen::JsCast;
-use wasm_bindgen::closure::Closure;
 use web_sys::{KeyboardEvent, MouseEvent};
 
 // local crates
@@ -157,34 +156,34 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
     _ => {}
   };
 
-  create_effect(move |_| {
-    if is_visible.get() {
-      let closure = Closure::wrap(Box::new(on_keydown) as Box<dyn FnMut(_)>);
-      window()
-        .add_event_listener_with_callback("keydown", closure.as_ref().unchecked_ref())
-        .unwrap();
-      closure.forget();
-    }
-  });
-
   let on_background_click = move |_mouse_event: MouseEvent| {
     is_paused.set(true);
     current_index.set(0);
     is_visible.set(false);
   };
 
-  // Effect to steal focus from other elements on the page so on_background_click works
+  // Effect to steal focus when speed reader becomes visible so keyboard events work
   create_effect(move |_| {
     if is_visible.get() {
-      if let Some(window) = web_sys::window() {
-        if let Some(document) = window.document() {
-          if let Some(element) = document.get_element_by_id("libri-container") {
-            let _ = element
-              .dyn_into::<web_sys::HtmlElement>()
-              .map(|el| el.focus());
+      let _ = set_timeout(
+        move || {
+          if let Some(window) = web_sys::window() {
+            if let Ok(shadow_root) = js_sys::Reflect::get(
+              &window,
+              &wasm_bindgen::JsValue::from_str("__LIBRI_SHADOW_ROOT__"),
+            ) {
+              if let Some(shadow_root) = shadow_root.dyn_into::<web_sys::ShadowRoot>().ok() {
+                if let Ok(Some(element)) = shadow_root.query_selector("#libri-container") {
+                  let _ = element
+                    .dyn_into::<web_sys::HtmlElement>()
+                    .map(|html_el| html_el.focus());
+                }
+              }
+            }
           }
-        }
-      }
+        },
+        std::time::Duration::from_millis(10),
+      );
     }
   });
 
@@ -193,6 +192,7 @@ pub fn SpeedReader(text: RwSignal<Option<String>>, is_visible: RwSignal<bool>) -
       id="libri-container"
       class="fixed inset-0 z-[999999] flex items-center justify-center bg-black/50"
       on:click=on_background_click
+      on:keydown=on_keydown
       tabindex="0"
     >
       <Card
