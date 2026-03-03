@@ -1,3 +1,7 @@
+[profile.dev]
+debug = 'line-tables-only'
+
+
 [workspace]
 members = [ 'core' ]
 resolver = '2'
